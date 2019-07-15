@@ -31,7 +31,7 @@ pipeline{
                         '''
                         sh('echo "User Name is ${GIT_USERNAME}"')
                         sh("git tag -a ${tagName} -m 'Tagging release build with name of ${tagName}'")
-                        sh('git push origin ${tagName}')
+                        sh("git push origin ${tagName}")
                     }
                 }
             }
