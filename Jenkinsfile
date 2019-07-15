@@ -51,29 +51,30 @@ pipeline{
                     script {
                         if(params.release){
                             	// 
-                                def INPUT_PARAMS = input message: 'Please enter Tag Name', ok: 'Proceed',
-                                        parameters: [
-                                        string(name: 'tagName', defaultValue:'', description: 'Please enter the Tag Name'),
-                                        ]
-                                tagName = INPUT_PARAMS.tagName        
+                            input message: 'Please enter Tag Name', ok: 'Proceed',
+                                    parameters: [
+                                    string(name: 'tagName', defaultValue:'', description: 'Please enter the Tag Name'),
+                                    ]
+
+                            sh '''
+                        
+                                git config user.email praveenkumar.myl@gmail.com
+                                git config user.name src-praveen
+                            '''   
+                            sh "echo Tag Name ${tagName}"
+
+                            withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
+                                sh '''
+                                    git tag -l
+                                    git remote show origin
+                                '''
+                                sh('echo "User Name is ${GIT_USERNAME}"')
+                                sh("git tag -a ${tagName} -m 'Tagging release build with name of ${tagName}'")
+                                sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${tagName}")
+                            }       
                         }
                     }
-                    sh '''
-                        
-                        git config user.email praveenkumar.myl@gmail.com
-                        git config user.name src-praveen
-                    '''   
-                    sh "echo Tag Name ${tagName}"
-
-                    withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
-                        sh '''
-                            git tag -l
-                            git remote show origin
-                        '''
-                        sh('echo "User Name is ${GIT_USERNAME}"')
-                        sh("git tag -a ${tagName} -m 'Tagging release build with name of ${tagName}'")
-                        sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${tagName}")
-                    } 
+                    
             }  
             
             // stage('Deploy to Staging'){
