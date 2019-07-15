@@ -14,19 +14,19 @@ pipeline{
                 sh '''
                     mvn clean package
                 '''
+
+                input{
+                        message "Enter the tag name"
+                        parameters{
+                            string(name:'tagName',defaultValue:None,description:'Tag name of the build')
+                        }
+                }
                
             }
             post{
                 success{
                     echo 'Now Archiving started....'
-                    archiveArtifacts artifacts: '**/target/*.war'
-
-                    input{
-                        message: "Enter the tag name"
-                        parameters{
-                            string(name:'tagName',defaultValue:None,description:'Tag name of the build')
-                        }
-                    }
+                    archiveArtifacts artifacts: '**/target/*.war'                    
 
                      sh '''
                         git config user.email praveenkumar.myl@gmail.com
