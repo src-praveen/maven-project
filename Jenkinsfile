@@ -9,7 +9,7 @@ pipeline{
             steps{
                 script {
                     tagName = 'v1.2.2'
-                    REPO = 'github.com'
+                    REPO = 'github.com/src-praveen/maven-project.git'
                     }
                 sh '''
                     mvn clean package
@@ -29,6 +29,7 @@ pipeline{
                      withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
                         sh '''
                             git tag -l
+                            git remote show origin
                         '''
                         sh('echo "User Name is ${GIT_USERNAME}"')
                         sh("git tag -a ${tagName} -m 'Tagging release build with name of ${tagName}'")
