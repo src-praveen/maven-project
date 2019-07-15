@@ -34,12 +34,14 @@ pipeline{
                     expression {
                         params.release == true
                     }
-                    input {
+                    
+                }
+
+                input {
                         message  "Enter the tag name"
                         parameters: [
                             string(name: 'tagName',defaultValue : '',description: 'Enter the tag name')
                         ]
-                    }
                 }
                 // if(params.release){
                 //     input {
