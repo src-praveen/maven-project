@@ -37,7 +37,7 @@ pipeline{
                     
                 }
 
-                
+                def tagName
                 // if(params.release){
                 //     input {
                 //         message  "Enter the tag name"
@@ -47,7 +47,7 @@ pipeline{
                 //     }
                 // }
                 steps{
-                    def tagName
+                    
                     script {
                         if(params.release){
                             	// 
