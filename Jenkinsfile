@@ -26,6 +26,36 @@ pipeline{
                     mvn clean package
                 '''            
             }
+            stage('Release Stage'){
+                    when{
+                        expression {
+                            params.release == true
+                        }
+                    }
+                    steps{
+                        sh '''
+                            git config user.email praveenkumar.myl@gmail.com
+                            git config user.name src-praveen
+                        '''   
+
+                        withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
+                            sh '''
+                                git tag -l
+                                git remote show origin
+                            '''
+                            sh('echo "User Name is ${GIT_USERNAME}"')
+                            sh("git tag -a ${params.tagName} -m 'Tagging release build with name of ${params.tagName}'")
+                            sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${params.tagName}")
+                        } 
+                }  
+                
+                // stage('Deploy to Staging'){
+                //     steps{
+                //         build job: 'deploy-to-staging'
+                //     }
+                // }
+            }    
+
             post{
                 success{
                     echo 'Now Archiving started....'
@@ -35,35 +65,9 @@ pipeline{
                     }
                 }
             }
+
+
         }
         
-        stage('Release Stage'){
-            when{
-                expression {
-                    params.release == true
-                }
-            }
-            steps{
-                sh '''
-                    git config user.email praveenkumar.myl@gmail.com
-                    git config user.name src-praveen
-                '''   
-
-                withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
-                    sh '''
-                        git tag -l
-                        git remote show origin
-                    '''
-                    sh('echo "User Name is ${GIT_USERNAME}"')
-                    sh("git tag -a ${params.tagName} -m 'Tagging release build with name of ${params.tagName}'")
-                    sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${params.tagName}")
-                } 
-        }  
         
-        // stage('Deploy to Staging'){
-        //     steps{
-        //         build job: 'deploy-to-staging'
-        //     }
-        // }
-    }
 }
