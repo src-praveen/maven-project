@@ -1,13 +1,9 @@
 pipeline{
     agent any
-    options(
-            [
-                parameters(
-                    [
-                        string(defaultValue: '', description: '', name: 'tagName', trim: true)
-                    ])
-            ]
-        )
+   // properties([parameters([string(defaultValue: '', description: '', name: 'tagName', trim: true)])])
+    parameters {
+        string(name: 'tagName', defaultValue: '', description: 'Release Tag name')
+    }
     tools { 
         maven 'Maven3' 
         jdk 'JAVA8' 
@@ -45,8 +41,8 @@ pipeline{
                             git remote show origin
                         '''
                         sh('echo "User Name is ${GIT_USERNAME}"')
-                        sh("git tag -a ${tagName} -m 'Tagging release build with name of ${tagName}'")
-                        sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${tagName}")
+                        sh("git tag -a ${params.tagName} -m 'Tagging release build with name of ${params.tagName}'")
+                        sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${params.tagName}")
                     }
                 }
             }
