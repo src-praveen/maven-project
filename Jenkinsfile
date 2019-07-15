@@ -37,7 +37,7 @@ pipeline{
                 }
                 if(params.release){
                     input {
-                        message: 'Enter the tag name',
+                        message  "Enter the tag name"
                         parameters: [
                             string(name: 'tagName',defaultValue : '',description: 'Enter the tag name')
                         ]
