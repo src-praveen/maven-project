@@ -6,10 +6,10 @@ pipeline{
     }
     stages{
         stage('Build'){
-            input{
-                message: "Enter the tag name"
-                parameters{
-                    string(name:'tagName',defaultValue:None,description:'Tag name of the build')
+            input {
+                message "Tag name of the release"
+                parameters {
+                    string(name: 'tagName', defaultValue: '0.0.1', description: 'Tag name of the release')
                 }
             }
             steps{
@@ -19,10 +19,7 @@ pipeline{
                     }
                 sh '''
                     mvn clean package
-                '''
-
-                
-               
+                '''            
             }
             post{
                 success{
