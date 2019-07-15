@@ -20,6 +20,11 @@ pipeline{
                     echo 'Now Archiving started....'
                     archiveArtifacts artifacts: '**/target/*.war'
 
+                     sh '''
+                        git config user.email praveenkumar.myl@gmail.com
+                        git config user.name src-praveen
+                    '''   
+
                      withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
                         sh('echo "Tag Name is ${tagName}"')
                         sh('echo "User Name is ${GIT_USERNAME}"')
