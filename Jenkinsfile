@@ -34,8 +34,6 @@ pipeline{
                     expression {
                         params.release == true
                     }
-                }
-                if(params.release){
                     input {
                         message  "Enter the tag name"
                         parameters: [
@@ -43,6 +41,14 @@ pipeline{
                         ]
                     }
                 }
+                // if(params.release){
+                //     input {
+                //         message  "Enter the tag name"
+                //         parameters: [
+                //             string(name: 'tagName',defaultValue : '',description: 'Enter the tag name')
+                //         ]
+                //     }
+                // }
                 steps{
                     sh '''
                         git config user.email praveenkumar.myl@gmail.com
