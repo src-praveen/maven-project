@@ -51,10 +51,16 @@ pipeline{
                     script {
                         if(params.release){
                             	// 
-                            input message: 'Please enter Tag Name', ok: 'Proceed',
-                                    parameters: [
-                                    string(name: 'tagName', defaultValue:'', description: 'Please enter the Tag Name'),
-                                    ]
+                            // input message: 'Please enter Tag Name', ok: 'Proceed',
+                            //         parameters: [
+                            //         string(name: 'tagName', defaultValue:'', description: 'Please enter the Tag Name'),
+                            //         ]
+
+                             def userInput = input(id: 'userInput', message: 'Tag name?',
+                                parameters: [[$class: 'StringParameterDefinition', defaultValue: '', 
+                                    description:'tage name ', name:'tagName']
+                                ])
+                                println(userInput)
 
                             sh '''
                         
