@@ -39,9 +39,9 @@ pipeline{
 
                 input {
                         message  "Enter the tag name"
-                        parameters: [
+                        parameters: {
                             string(name: 'tagName',defaultValue : '',description: 'Enter the tag name')
-                        ]
+                        }
                 }
                 // if(params.release){
                 //     input {
