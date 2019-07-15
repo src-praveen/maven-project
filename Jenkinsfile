@@ -73,17 +73,14 @@ pipeline{
             //         build job: 'deploy-to-staging'
             //     }
             // }
-        } 
-
-        post{
+        }
+    }  
+     post{
             success{
                 echo 'Now Archiving started....'
                 archiveArtifacts artifacts: '**/target/*.war'        
                     
             }
-        }
-
-
-    }       
+        }     
         
 }
