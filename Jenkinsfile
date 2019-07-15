@@ -9,6 +9,7 @@ pipeline{
             steps{
                 script {
                     tagName = 'v1.2.1'
+                    REPO = 'github.com/maven-project.git'
                     }
                 sh '''
                     mvn clean package
@@ -31,7 +32,7 @@ pipeline{
                         '''
                         sh('echo "User Name is ${GIT_USERNAME}"')
                         sh("git tag -a ${tagName} -m 'Tagging release build with name of ${tagName}'")
-                        sh("git push origin ${tagName}")
+                        sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${tagName}")
                     }
                 }
             }
