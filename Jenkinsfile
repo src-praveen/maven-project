@@ -1,13 +1,18 @@
 pipeline{
     agent any
+    tools { 
+        maven 'Maven3' 
+        jdk 'JAVA8' 
+    }
     stages{
         stage('Build'){
             steps{
-                scripts{
-                   def mavenHome = tool name: 'Maven3', type: 'maven'
-                }
-                echo "maven home ${mavenHome}"
-                sh "'${mavenHome}/bin/mvn' clean install"
+              
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                '''
+               
             }
             post{
                 success{
