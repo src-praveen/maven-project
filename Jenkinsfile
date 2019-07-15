@@ -7,12 +7,6 @@ pipeline{
     stages{
         stage('Build'){
             steps{
-              
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                '''
-
                 sh '''
                     mvn clean package
                 '''
@@ -23,6 +17,11 @@ pipeline{
                     echo 'Now Archiving started....'
                     archiveArtifacts artifacts: '**/target/*.war'
                 }
+            }
+        }
+        stage('Deploy to Staging'){
+            steps{
+                build job: 'deploy-to-staging'
             }
         }
     }
