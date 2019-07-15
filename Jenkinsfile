@@ -49,17 +49,18 @@ pipeline{
                 steps{
                     script {
                         if(params.release){
-                            	def INPUT_PARAMS = input message: 'Please enter Tag Name', ok: 'Next',
+                            	def INPUT_PARAMS = input message: 'Please enter Tag Name', ok: 'Proceed',
                                         parameters: [
                                         string(name: 'tagName', defaultValue:'', description: 'Please enter the Tag Name'),
                                         ]
                         }
                     }
                     sh '''
-                        echo "Tag Name ${INPUT_PARAMS.tagName}"
+                        
                         git config user.email praveenkumar.myl@gmail.com
                         git config user.name src-praveen
                     '''   
+                    sh "echo Tag Name ${INPUT_PARAMS.tagName}"
 
                     withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
                         sh '''
