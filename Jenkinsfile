@@ -2,9 +2,11 @@ pipeline{
     agent any
     stages{
         stage('Build'){
-            def mavenHome
             steps{
-                mavenHome = tool name: 'Maven3', type: 'maven'
+                scripts{
+                    mavenHome = tool name: 'Maven3', type: 'maven'
+                }
+                echo "maven home ${mavenHome}"
                 sh "'${mavenHome}/bin/mvn' clean install"
             }
             post{
