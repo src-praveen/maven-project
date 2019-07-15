@@ -2,7 +2,7 @@ pipeline{
     agent any
    // properties([parameters([string(defaultValue: '', description: '', name: 'tagName', trim: true)])])
     parameters {
-        booleanParam(name: 'release', defaultValue: false, description: 'release'),
+        booleanParam(name: 'release', defaultValue: false, description: 'release')
         string(name: 'tagName', defaultValue: '', description: 'Release Tag name')
     }
     tools { 
