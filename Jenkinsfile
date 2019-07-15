@@ -37,12 +37,12 @@ pipeline{
                     
                 }
 
-                // input {
-                //         message  "Enter the tag name"
-                //         parameters: {
-                //             string(name: 'tagName',defaultValue : '',description: 'Enter the tag name')
-                //         }
-                // }
+                input {
+                        message  "Enter the tag name"
+                        parameters: {
+                            string(name: 'tagName',defaultValue : '',description: 'Enter the tag name')
+                        }
+                }
                 // if(params.release){
                 //     input {
                 //         message  "Enter the tag name"
