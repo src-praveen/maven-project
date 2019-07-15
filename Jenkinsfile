@@ -9,7 +9,7 @@ pipeline{
             steps{
                 script {
                     tagName = 'v1.2.2'
-                    REPO = 'github.com/maven-project.git'
+                    REPO = 'github.com'
                     }
                 sh '''
                     mvn clean package
