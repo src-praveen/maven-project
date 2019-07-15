@@ -8,7 +8,7 @@ pipeline{
         stage('Build'){
             steps{
                 script {
-                    tagName = 'v1.2.2'
+                    tagName = 'v1.2.3'
                     REPO = 'github.com/src-praveen/maven-project.git'
                     }
                 sh '''
