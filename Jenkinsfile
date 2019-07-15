@@ -29,7 +29,7 @@ pipeline{
                         sh('echo "Tag Name is ${tagName}"')
                         sh('echo "User Name is ${GIT_USERNAME}"')
                         sh("git tag -a ${tagName} -m 'Tagging release build with name of ${tagName}'")
-                        sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@<REPO> ${tagName}')
+                        sh('git push https://${GIT_USERNAME}@github.com/src-praveen/maven-project.git ${tagName}')
                     }
                 }
             }
