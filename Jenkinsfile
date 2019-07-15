@@ -37,12 +37,7 @@ pipeline{
                     
                 }
 
-                input {
-                        message  "Enter the tag name"
-                        parameters: [
-                            string(name: 'tagName',defaultValue : '',description: 'Enter the tag name')
-                        ]
-                }
+                
                 // if(params.release){
                 //     input {
                 //         message  "Enter the tag name"
@@ -52,6 +47,16 @@ pipeline{
                 //     }
                 // }
                 steps{
+                    script {
+                        if(params.release){
+                            input{
+                                    message  "Enter the tag name"
+                                    parameters: [
+                                        string(name: 'tagName',defaultValue : '',description: 'Enter the tag name')
+                                    ]
+                            }
+                        }
+                    }
                     sh '''
                         git config user.email praveenkumar.myl@gmail.com
                         git config user.name src-praveen
