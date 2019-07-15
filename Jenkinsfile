@@ -49,10 +49,10 @@ pipeline{
                 steps{
                     script {
                         if(params.release){
-                            	def INPUT_PARAMS = input message: 'Please enter Tag Name', ok: 'Proceed',
-                                        parameters: [
-                                        string(name: 'tagName', defaultValue:'', description: 'Please enter the Tag Name'),
-                                        ]
+                            input message: 'Please enter Tag Name', ok: 'Proceed',
+                                parameters: [
+                                string(name: 'tagName', defaultValue:'', description: 'Please enter the Tag Name'),
+                                ]
                         }
                     }
                     sh '''
@@ -60,7 +60,7 @@ pipeline{
                         git config user.email praveenkumar.myl@gmail.com
                         git config user.name src-praveen
                     '''   
-                    sh "echo Tag Name ${INPUT_PARAMS.tagName}"
+                    sh "echo Tag Name ${tagName}"
 
                     withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
                         sh '''
@@ -68,8 +68,8 @@ pipeline{
                             git remote show origin
                         '''
                         sh('echo "User Name is ${GIT_USERNAME}"')
-                        sh("git tag -a ${INPUT_PARAMS.tagName} -m 'Tagging release build with name of ${INPUT_PARAMS.tagName}'")
-                        sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${INPUT_PARAMS.tagName}")
+                        sh("git tag -a ${tagName} -m 'Tagging release build with name of ${tagName}'")
+                        sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${tagName}")
                     } 
             }  
             
