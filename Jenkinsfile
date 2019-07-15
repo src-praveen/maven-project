@@ -5,7 +5,7 @@ pipeline{
         jdk 'JAVA8' 
     }
     parameters {
-        string(name: 'tagName', description: 'Tag name for the release', defaultValue:None)
+        string(name: 'tagName', description: 'Tag name for the release', defaultValue:'')
     }
     stages{
         stage('Build'){
