@@ -8,7 +8,7 @@ pipeline{
         stage('Build'){
             steps{
                 script {
-                    tagName = 'v1.2.5'
+                   // tagName = 'v1.2.5'
                     REPO = 'github.com/src-praveen/maven-project.git'
                     }
                 sh '''
@@ -20,6 +20,13 @@ pipeline{
                 success{
                     echo 'Now Archiving started....'
                     archiveArtifacts artifacts: '**/target/*.war'
+
+                    input{
+                        message: 'Enter the tag name',
+                        parameters{
+                            string(name:'tagName',defaultValue:None,description:'Tag name of the build')
+                        }
+                    }
 
                      sh '''
                         git config user.email praveenkumar.myl@gmail.com
