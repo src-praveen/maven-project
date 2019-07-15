@@ -23,7 +23,7 @@ pipeline{
                      withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
                         sh('echo "Tag Name is ${tagName}"')
                         sh('echo "User Name is ${GIT_USERNAME}"')
-                        sh("git tag -a ${tagValue} -m 'Tagging release build with name of ${tagName}'")
+                        sh("git tag -a ${tagName} -m 'Tagging release build with name of ${tagName}'")
                         sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@<REPO> ${tagName}')
                     }
                 }
