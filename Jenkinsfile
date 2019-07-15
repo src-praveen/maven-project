@@ -3,7 +3,8 @@ pipeline{
     stages{
         stage('Build'){
             steps{
-                sh 'mvn clean package'
+                def mavenHome = tool name: 'Maven3', type: 'maven'
+                sh "'${mavenHome}/bin/mvn' clean install"
             }
             post{
                 success{
