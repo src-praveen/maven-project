@@ -22,7 +22,7 @@ pipeline{
                     archiveArtifacts artifacts: '**/target/*.war'
 
                     input{
-                        message: 'Enter the tag name',
+                        message: "Enter the tag name"
                         parameters{
                             string(name:'tagName',defaultValue:None,description:'Tag name of the build')
                         }
