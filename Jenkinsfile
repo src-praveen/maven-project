@@ -6,6 +6,12 @@ pipeline{
     }
     stages{
         stage('Build'){
+            input{
+                message: "Enter the tag name"
+                parameters{
+                    string(name:'tagName',defaultValue:None,description:'Tag name of the build')
+                }
+            }
             steps{
                 script {
                    // tagName = 'v1.2.5'
@@ -15,12 +21,7 @@ pipeline{
                     mvn clean package
                 '''
 
-                input{
-                        message "Enter the tag name"
-                        parameters{
-                            string(name:'tagName',defaultValue:None,description:'Tag name of the build')
-                        }
-                }
+                
                
             }
             post{
