@@ -60,14 +60,17 @@ pipeline{
                                 parameters: [[$class: 'StringParameterDefinition', defaultValue: '', 
                                     description:'tage name ', name:'tagName']
                                 ])
-                                println(userInput)
+                                println(">>>>>> "+userInput)
+
+                                  
+                        }
 
                             sh '''
                         
                                 git config user.email praveenkumar.myl@gmail.com
                                 git config user.name src-praveen
                             '''   
-                            sh "echo Tag Name ${tagName}"
+                            sh "echo Tag Name ${userInput}"
 
                             withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
                                 sh '''
@@ -75,10 +78,9 @@ pipeline{
                                     git remote show origin
                                 '''
                                 sh('echo "User Name is ${GIT_USERNAME}"')
-                                sh("git tag -a ${tagName} -m 'Tagging release build with name of ${tagName}'")
-                                sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${tagName}")
-                            }       
-                        }
+                                sh("git tag -a ${userInput} -m 'Tagging release build with name of ${userInput}'")
+                                sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${userInput}")
+                            } 
                     }
                     
             }  
