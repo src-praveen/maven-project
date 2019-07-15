@@ -1,6 +1,13 @@
 pipeline{
     agent any
-    properties([parameters([string(defaultValue: '', description: '', name: 'tagName', trim: true)])])
+    options(
+            [
+                parameters(
+                    [
+                        string(defaultValue: '', description: '', name: 'tagName', trim: true)
+                    ])
+            ]
+        )
     tools { 
         maven 'Maven3' 
         jdk 'JAVA8' 
