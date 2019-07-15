@@ -61,26 +61,26 @@ pipeline{
                                     description:'tage name ', name:'tagName']
                                 ])
                                 println(">>>>>> "+userInput)
+                                sh '''
+                        
+                                    git config user.email praveenkumar.myl@gmail.com
+                                    git config user.name src-praveen
+                                '''   
+                                sh "echo Tag Name ${userInput}"
 
+                                withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
+                                    sh '''
+                                        git tag -l
+                                        git remote show origin
+                                    '''
+                                    sh('echo "User Name is ${GIT_USERNAME}"')
+                                    sh("git tag -a ${userInput} -m 'Tagging release build with name of ${userInput}'")
+                                    sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${userInput}")
+                                } 
                                   
                         }
 
-                            sh '''
-                        
-                                git config user.email praveenkumar.myl@gmail.com
-                                git config user.name src-praveen
-                            '''   
-                            sh "echo Tag Name ${userInput}"
-
-                            withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
-                                sh '''
-                                    git tag -l
-                                    git remote show origin
-                                '''
-                                sh('echo "User Name is ${GIT_USERNAME}"')
-                                sh("git tag -a ${userInput} -m 'Tagging release build with name of ${userInput}'")
-                                sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${userInput}")
-                            } 
+                            
                     }
                     
             }  
