@@ -47,14 +47,15 @@ pipeline{
                 //     }
                 // }
                 steps{
+                    def tagName
                     script {
                         if(params.release){
-                            	//def INPUT_PARAMS = 
-                                input message: 'Please enter Tag Name', ok: 'Proceed',
+                            	// 
+                                def INPUT_PARAMS = input message: 'Please enter Tag Name', ok: 'Proceed',
                                         parameters: [
                                         string(name: 'tagName', defaultValue:'', description: 'Please enter the Tag Name'),
                                         ]
-                                //env.tagName = INPUT_PARAMS.tagName        
+                                tagName = INPUT_PARAMS.tagName        
                         }
                     }
                     sh '''
