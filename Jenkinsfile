@@ -36,12 +36,13 @@ pipeline{
                 }
             }
         }
-        when{
-            expression {
-                params.release == true
-            }
-        }
+        
         stage('Release Stage'){
+            when{
+                expression {
+                    params.release == true
+                }
+            }
             steps{
                 sh '''
                     git config user.email praveenkumar.myl@gmail.com
