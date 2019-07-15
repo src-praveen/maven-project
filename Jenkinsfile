@@ -37,7 +37,7 @@ pipeline{
                     
                 }
 
-                def tagName
+               
                 // if(params.release){
                 //     input {
                 //         message  "Enter the tag name"
