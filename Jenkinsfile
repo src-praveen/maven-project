@@ -1,15 +1,18 @@
 pipeline{
     agent any
+    properties([parameters([string(defaultValue: '', description: '', name: 'tagName', trim: true)])])
     tools { 
         maven 'Maven3' 
         jdk 'JAVA8' 
     }
-    parameters {
-        string(name: 'tagName', description: 'Tag name for the release', defaultValue:'')
-    }
     stages{
         stage('Build'){
-            
+            // input {
+            //     message "Tag name of the release"
+            //     parameters {
+            //         string(name: 'tagName', defaultValue: '0.0.1', description: 'Tag name of the release')
+            //     }
+            // }
             steps{
                 script {
                    // tagName = 'v1.2.5'
@@ -35,8 +38,8 @@ pipeline{
                             git remote show origin
                         '''
                         sh('echo "User Name is ${GIT_USERNAME}"')
-                        sh("git tag -a ${param.tagName} -m 'Tagging release build with name of ${param.tagName}'")
-                        sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${param.tagName}")
+                        sh("git tag -a ${tagName} -m 'Tagging release build with name of ${tagName}'")
+                        sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${tagName}")
                     }
                 }
             }
