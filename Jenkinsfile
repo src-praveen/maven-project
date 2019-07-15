@@ -2,6 +2,7 @@ pipeline{
     agent any
    // properties([parameters([string(defaultValue: '', description: '', name: 'tagName', trim: true)])])
     parameters {
+        booleanParam(name: 'release', defaultValue: false, description: 'release'),
         string(name: 'tagName', defaultValue: '', description: 'Release Tag name')
     }
     tools { 
@@ -29,20 +30,27 @@ pipeline{
                 success{
                     echo 'Now Archiving started....'
                     archiveArtifacts artifacts: '**/target/*.war'                    
-
-                     sh '''
-                        git config user.email praveenkumar.myl@gmail.com
-                        git config user.name src-praveen
-                    '''   
-
-                     withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
+                    when{
+                        expression {
+                            params.release == true
+                        }
+                    }  
+                    steps{
                         sh '''
-                            git tag -l
-                            git remote show origin
-                        '''
-                        sh('echo "User Name is ${GIT_USERNAME}"')
-                        sh("git tag -a ${params.tagName} -m 'Tagging release build with name of ${params.tagName}'")
-                        sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${params.tagName}")
+                            git config user.email praveenkumar.myl@gmail.com
+                            git config user.name src-praveen
+                        '''   
+
+                        withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {                        
+                            sh '''
+                                git tag -l
+                                git remote show origin
+                            '''
+                            sh('echo "User Name is ${GIT_USERNAME}"')
+                            sh("git tag -a ${params.tagName} -m 'Tagging release build with name of ${params.tagName}'")
+                            sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO} ${params.tagName}")
+                        }  
+                     
                     }
                 }
             }
