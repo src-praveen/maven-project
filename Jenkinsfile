@@ -3,12 +3,7 @@ pipeline{
    // properties([parameters([string(defaultValue: '', description: '', name: 'tagName', trim: true)])])
     parameters {
         booleanParam(name: 'release', defaultValue: false, description: 'release')
-        
-    }
-    if(params.release){
-        parameters {
-            string(name: 'tagName', defaultValue: '', description: 'Tag name for the release')        
-        }
+       // string(name: 'tagName', defaultValue: '', description: 'Release Tag name')
     }
     tools { 
         maven 'Maven3' 
@@ -38,6 +33,14 @@ pipeline{
                 when{
                     expression {
                         params.release == true
+                    }
+                }
+                if(params.release){
+                    input {
+                        message: 'Enter the tag name',
+                        parameters: [
+                            string(name: 'tagName',defaultValue : '',description: 'Enter the tag name')
+                        ]
                     }
                 }
                 steps{
